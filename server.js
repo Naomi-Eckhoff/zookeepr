@@ -2,24 +2,18 @@ const express = require('express');
 const { animals } = require('./data/animals');
 
 const PORT = process.env.PORT || 3001;
-
 const app = express();
 
 function filterByQuery(query, animalsArray) {
   let personalityTraitsArray = [];
-
   let filteredResults = animalsArray;
-
-  if (query.personlityTraits) {
-
+  if (query.personalityTraits) {
     if (typeof query.personalityTraits === 'string') {
       personalityTraitsArray = [query.personalityTraits];
     } else {
       personalityTraitsArray = query.personalityTraits;
     }
-
     personalityTraitsArray.forEach(trait => {
-
       filteredResults = filteredResults.filter(
         animal => animal.personalityTraits.indexOf(trait) !== -1
       );
