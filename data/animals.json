@@ -126,6 +126,19 @@
         "hungry"
       ],
       "id": "12"
+    },
+    {
+      "name": "l",
+      "species": "s",
+      "diet": "herbivore",
+      "personalityTraits": [
+        "hungry",
+        "zany",
+        "anxious",
+        "loving",
+        "goofy"
+      ],
+      "id": "13"
     }
   ]
 }
