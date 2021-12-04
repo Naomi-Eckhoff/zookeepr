@@ -1,30 +1,13 @@
-const express = require('express');
-const { animals } = require('./data/animals');
 const fs = require('fs');
 const path = require('path');
+const express = require('express');
+const { animals } = require('./data/animals');
 
 const PORT = process.env.PORT || 3001;
 const app = express();
 
 app.use(express.urlencoded({ extended: true }));
-
 app.use(express.json());
-
-function validateAnimal(animal) {
-  if (!animal.name || typeof animal.name !== 'string') {
-    return false;
-  }
-  if (!animal.species || typeof animal.species !== 'string') {
-    return false;
-  }
-  if (!animal.diet || typeof animal.diet !== 'string') {
-    return false;
-  }
-  if (!animal.personalityTraits || !Array.isArray(animal.personalityTraits)) {
-    return false;
-  }
-  return true;
-}
 
 function filterByQuery(query, animalsArray) {
   let personalityTraitsArray = [];
@@ -68,13 +51,28 @@ function createNewAnimal(body, animalsArray) {
   return animal;
 }
 
+function validateAnimal(animal) {
+  if (!animal.name || typeof animal.name !== 'string') {
+    return false;
+  }
+  if (!animal.species || typeof animal.species !== 'string') {
+    return false;
+  }
+  if (!animal.diet || typeof animal.diet !== 'string') {
+    return false;
+  }
+  if (!animal.personalityTraits || !Array.isArray(animal.personalityTraits)) {
+    return false;
+  }
+  return true;
+}
+
 app.get('/api/animals', (req, res) => {
   let results = animals;
   if (req.query) {
     results = filterByQuery(req.query, results);
   }
   res.json(results);
-  app.post('/api/animals', (req, res) => { });
 });
 
 app.get('/api/animals/:id', (req, res) => {
@@ -87,6 +85,7 @@ app.get('/api/animals/:id', (req, res) => {
 });
 
 app.post('/api/animals', (req, res) => {
+  // set id based on what the next index of the array will be
   req.body.id = animals.length.toString();
 
   if (!validateAnimal(req.body)) {
@@ -96,7 +95,6 @@ app.post('/api/animals', (req, res) => {
     res.json(animal);
   }
 });
-
 app.listen(PORT, () => {
   console.log(`API server now on port ${PORT}!`);
 });
